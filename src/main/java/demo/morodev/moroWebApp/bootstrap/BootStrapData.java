@@ -2,8 +2,10 @@ package demo.morodev.moroWebApp.bootstrap;
 
 import demo.morodev.moroWebApp.domain.Author;
 import demo.morodev.moroWebApp.domain.Book;
+import demo.morodev.moroWebApp.domain.Publisher;
 import demo.morodev.moroWebApp.repositories.AuthorRepository;
 import demo.morodev.moroWebApp.repositories.BookRepository;
+import demo.morodev.moroWebApp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,12 @@ public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -44,6 +48,11 @@ public class BootStrapData implements CommandLineRunner {
 
         System.out.println("Started in Bootstrap");
         System.out.println("Number of Books: " + bookRepository.count());
+
+        Publisher publisherOne = new Publisher("APOGEO", "Via Roma", "Roma", "ITALIA", "00100");
+
+        publisherRepository.save(publisherOne);
+        System.out.println("Tot Publisher: " + publisherRepository.count());
 
     }
 }
