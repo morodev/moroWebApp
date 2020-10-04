@@ -28,31 +28,46 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        // first print bootstrap
+        System.out.println("Started in Bootstrap");
+
+        // Publisher publisherOne = new Publisher("APOGEO", "Via Roma", "Roma", "ITALIA", "00100");
+
+        // change property publisher from constructor to single set property
+        Publisher publisherOne = new Publisher();
+        publisherOne.setName("APOGEO");
+        publisherOne.setCity("Roma");
+        publisherOne.setState("ITALIA");
+
+        publisherRepository.save(publisherOne);
+        System.out.println("Tot Publisher: " + publisherRepository.count());
+
+
         Author LucaMoro = new Author("Luca", "Moro");
         Book moroDev = new Book("Angular 10 - Study and do it", "1827367292");
 
         LucaMoro.getBooks().add(moroDev);
         moroDev.getAuthors().add(LucaMoro);
+        moroDev.setPublisher(publisherOne);
+        publisherOne.getBooks().add(moroDev);
 
         authorRepository.save(LucaMoro);
         bookRepository.save(moroDev);
+        publisherRepository.save(publisherOne);
 
         Author paolo = new Author("Paolo", "Rossi");
         Book newBook = new Book("J2EE Development guide", "4395834958345");
 
         paolo.getBooks().add(newBook);
         newBook.getAuthors().add(paolo);
+        newBook.setPublisher(publisherOne);
+        publisherOne.getBooks().add(newBook);
 
         authorRepository.save(paolo);
         bookRepository.save(newBook);
-
-        System.out.println("Started in Bootstrap");
-        System.out.println("Number of Books: " + bookRepository.count());
-
-        Publisher publisherOne = new Publisher("APOGEO", "Via Roma", "Roma", "ITALIA", "00100");
-
         publisherRepository.save(publisherOne);
-        System.out.println("Tot Publisher: " + publisherRepository.count());
 
+        System.out.println("Number of Books: " + bookRepository.count());
+        System.out.println("Publisher NUmber of Books: " + publisherOne.getBooks().size());
     }
 }
